@@ -34,9 +34,16 @@ func BubbleSort(list []int) []int {
 
 }
 func QuickSort(list []int) []int {
+	if len(list) <= 1 {
+		return list
+	}
+
 	pivot := len(list) / 2
-	left := list[pivot:]
-	right := list[:pivot]
+	left := make([]int, pivot)
+	right := make([]int, pivot)
+	copy(left, list[pivot:])
+	copy(right, list[:pivot])
+
 	if len(left) > 1 {
 		QuickSort(left)
 	}
@@ -52,7 +59,7 @@ func (list List) BinarySearch(value int) int {
 
 }
 func (list List) Sort() {
-	fmt.Println(BubbleSort(*list.listS), "Пузыречки")
+	//fmt.Println(BubbleSort(*list.listS), "Пузыречки")
 	fmt.Println(QuickSort(*list.listS), "Быстро")
 
 }
