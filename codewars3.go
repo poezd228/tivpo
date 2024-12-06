@@ -72,9 +72,8 @@ func main() {
 	// Запускаем несколько горутин для вставки в дерево
 	var wg sync.WaitGroup
 	for i := 0; i < 1000; i++ {
-		time.Sleep(100000000)
+		time.Sleep(1000)
 		wg.Add(1)
-		fmt.Println(i)
 
 		go func(val int) {
 			defer wg.Done()
