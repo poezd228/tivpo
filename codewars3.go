@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+	_ "net/http/pprof"
 	"sync"
 	"time"
 )
@@ -68,11 +71,23 @@ func (t *Tree3) Search(value int) *Node3 {
 
 func main() {
 	t := new(Tree3)
-
+	go func() {
+		log.Println(http.ListenAndServe("localhost:6060", nil))
+	}()
+	slice := make([]byte, 1<<30)
+	fmt.Println("Memory allocated:", len(slice))
 	// Запускаем несколько горутин для вставки в дерево
 	var wg sync.WaitGroup
 	for i := 0; i < 1000; i++ {
-		time.Sleep(1000)
+		// 1 GB
+
+		// Наполнение среза для "активного" использования памяти
+
+		slice[i] = 255
+
+		// Пауза, чтобы наблюдать за увеличением потребления памяти
+		time.Sleep(10 * time.Second)
+		time.Sleep(10000000000)
 		wg.Add(1)
 
 		go func(val int) {
