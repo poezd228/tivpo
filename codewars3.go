@@ -5,13 +5,6 @@ import (
 	"sync"
 )
 
-package main
-
-import (
-"fmt"
-"sync"
-)
-
 type Node3 struct {
 	value int
 	left  *Node3
@@ -24,7 +17,7 @@ type Tree3 struct {
 }
 
 func (t *Tree3) Insert(value int) {
-	t.mu.Lock() // Захват мьютекса
+	t.mu.Lock()         // Захват мьютекса
 	defer t.mu.Unlock() // Освобождение мьютекса
 
 	newNode := &Node3{value: value}
@@ -94,5 +87,3 @@ func main() {
 	// Включите динамический анализ для обнаружения гонок данных
 	// Для этого используйте команду go run -race
 }
-
-
