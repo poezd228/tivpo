@@ -3,24 +3,25 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
-type Node2 struct {
+type Node3 struct {
 	value int
-	left  *Node2
-	right *Node2
+	left  *Node3
+	right *Node3
 }
 
-type Tree2 struct {
-	root *Node2
+type Tree3 struct {
+	root *Node3
 	mu   sync.Mutex // Мьютекс для синхронизации доступа
 }
 
-func (t *Tree2) Insert(value int) {
+func (t *Tree3) Insert(value int) {
 	t.mu.Lock()         // Захват мьютекса
 	defer t.mu.Unlock() // Освобождение мьютекса
 
-	newNode := &Node2{value: value}
+	newNode := &Node3{value: value}
 	if t.root == nil {
 		t.root = newNode
 		return
@@ -43,7 +44,7 @@ func (t *Tree2) Insert(value int) {
 	}
 }
 
-func (t *Tree2) Search(value int) *Node2 {
+func (t *Tree3) Search(value int) *Node3 {
 	t.mu.Lock()
 	defer t.mu.Unlock()
 
@@ -66,12 +67,15 @@ func (t *Tree2) Search(value int) *Node2 {
 }
 
 func main() {
-	t := new(Tree2)
+	t := new(Tree3)
 
 	// Запускаем несколько горутин для вставки в дерево
 	var wg sync.WaitGroup
 	for i := 0; i < 1000; i++ {
+		time.Sleep(100000000)
 		wg.Add(1)
+		fmt.Println(i)
+
 		go func(val int) {
 			defer wg.Done()
 			t.Insert(val)
